@@ -10,21 +10,21 @@ unzip(zipfile = "./data/PM25emissions.zip", exdir = "./data")
 
 ##Read into R
 NEI <- readRDS("./data/summarySCC_PM25.rds")
+SCC <- readRDS("./data/Source_Classification_Code.rds")
 
 ##Summarize emissions data by year
 year_em <- NEI %>%
-    group_by(type, year) %>%
+    filter(fips == "24510" & type == "ON-ROAD") %>%
+    group_by(year) %>%
     summarise(total = sum(Emissions))
 
 ##Create Chart
 options(scipen = 999)
-png(file = 'plot3.png')
-p1 <- qplot(year, total, data = year_em, color = type, 
-            geom = c("line", "point"), main = "Emissions by Type",
-            ylab = "total emissions (tons)", xlab = "year",
-            ylim = c(0,7000000)
-      )
-
+png(file = 'plot5.png')
+p1 <- qplot(year, total, data = year_em, 
+            geom = c("line","point"), 
+            main = "Motor Vehicle Emissions",
+            ylab = "total emissions (tons)", xlab = "year"
+)
 p1 + scale_x_continuous(breaks = c(1999, 2002, 2005, 2008))
 dev.off()
-      
