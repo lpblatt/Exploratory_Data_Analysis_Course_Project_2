@@ -8,7 +8,6 @@ unzip(zipfile = "./data/PM25emissions.zip", exdir = "./data")
 
 ##Read into R
 NEI <- readRDS("./data/summarySCC_PM25.rds")
-SCC <- readRDS("./data/Source_Classification_Code.rds")
 
 ##Summarize emissions data by year
 year_em <- NEI %>%
