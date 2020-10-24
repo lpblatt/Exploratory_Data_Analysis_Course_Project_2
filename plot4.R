@@ -26,7 +26,7 @@ year_em <- coalDF %>%
     group_by(year) %>%
     summarise(total = sum(Emissions))
 
-##
+##Create chart
 options(scipen = 999)
 png(file = 'plot4.png')
 p1 <- qplot(year, total, data = year_em, 

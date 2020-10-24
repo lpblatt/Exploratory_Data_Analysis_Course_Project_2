@@ -1,4 +1,3 @@
-
 ##Download Data
 library(dplyr)
 library(ggplot2)
@@ -15,17 +14,20 @@ SCC <- readRDS("./data/Source_Classification_Code.rds")
 
 ##Summarize emissions data by year
 year_em <- NEI %>%
-    filter(fips == "24510" & type == "ON-ROAD") %>%
-    group_by(year) %>%
+    filter(fips == "24510" | fips == "06037") %>%
+    filter(type == "ON-ROAD") %>%
+    group_by(fips, year) %>%
     summarise(total = sum(Emissions))
+
+year_em$fips[year_em$fips == "24510"] <- "Baltimore"
+year_em$fips[year_em$fips == "06037"] <- "Los Angeles"
 
 ##Create Chart
 options(scipen = 999)
-png(file = 'plot5.png')
-p1 <- qplot(year, total, data = year_em, 
-            geom = c("line","point"), 
-            main = "Motor Vehicle Emissions",
-            ylab = "total emissions (tons)", xlab = "year"
-)
-p1 + scale_x_continuous(breaks = c(1999, 2002, 2005, 2008))
-dev.off() 
+png(file = 'plot6.png')
+qplot(year, total, data = year_em,
+        facets = .~fips,
+        geom = c("line","point"), 
+        main = "Motor Vehicle Emissions in Baltimore vs Los Angeles",
+        ylab = "total emissions (tons)", xlab = "year")
+dev.off()

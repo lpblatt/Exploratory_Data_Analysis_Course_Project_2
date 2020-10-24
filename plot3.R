@@ -11,7 +11,7 @@ unzip(zipfile = "./data/PM25emissions.zip", exdir = "./data")
 ##Read into R
 NEI <- readRDS("./data/summarySCC_PM25.rds")
 
-##Summarize emissions data by year
+##Summarize emissions data
 year_em <- NEI %>%
     group_by(type, year) %>%
     summarise(total = sum(Emissions))
